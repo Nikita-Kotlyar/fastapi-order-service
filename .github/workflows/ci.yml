@@ -15,7 +15,7 @@ jobs:
     env:
       ORDERHUB_DATABASE_URL: sqlite:///./ci.db
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -53,7 +53,7 @@ jobs:
     env:
       ORDERHUB_DATABASE_URL: postgresql+psycopg://orderhub:orderhub@127.0.0.1:5432/orderhub
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -83,7 +83,7 @@ jobs:
       ORDERHUB_REDIS_URL: redis://127.0.0.1:6379/0
       ORDERHUB_TEST_REDIS_URL: redis://127.0.0.1:6379/0
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -100,7 +100,7 @@ jobs:
       SOURCE_DATA_DIR: /tmp/data/source
       POSTGRES_PASSWORD: ci-postgres-password
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Build image
         run: docker build -t orderhub:ci .
       - name: Validate Compose file
