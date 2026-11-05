@@ -1,5 +1,6 @@
 # Order Hub — интеграция заказов из пяти корпоративных систем
 
+[![CI](https://github.com/Nikita-Kotlyar/fastapi-order-service/actions/workflows/ci.yml/badge.svg)](https://github.com/Nikita-Kotlyar/fastapi-order-service/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
