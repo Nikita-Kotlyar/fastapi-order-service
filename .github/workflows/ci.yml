@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+env:
+  ORDERHUB_JWT_SECRET: ci-secret-key-that-is-long-enough-1234567890
+  ORDERHUB_PBKDF2_ITERATIONS: "1000"
+
+jobs:
+  sqlite:
+    name: Lint + tests + coverage (SQLite)
+    runs-on: ubuntu-latest
+    env:
+      ORDERHUB_DATABASE_URL: sqlite:///./ci.db
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Format check
+        run: ruff format --check app tests scripts
+      - name: Lint
+        run: ruff check app tests scripts
+      - name: Migrations from scratch
+        run: alembic upgrade head
+      - name: Migration drift check
+        run: alembic check
+      - name: Tests with coverage
+        run: pytest -q -m "not integration" --cov=app --cov-report=term-missing --cov-fail-under=80
+
+  postgres:
+    name: Tests (PostgreSQL 16)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: orderhub
+          POSTGRES_PASSWORD: orderhub
+          POSTGRES_DB: orderhub
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U orderhub -d orderhub"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      ORDERHUB_DATABASE_URL: postgresql+psycopg://orderhub:orderhub@127.0.0.1:5432/orderhub
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev,postgres]"
+      - name: Migrations
+        run: alembic upgrade head
+      - name: Tests against PostgreSQL
+        run: pytest -q -m "not integration and not redis"
+
+  redis:
+    name: Tests (Redis 7 cache)
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      ORDERHUB_DATABASE_URL: sqlite:///./ci.db
+      ORDERHUB_REDIS_URL: redis://127.0.0.1:6379/0
+      ORDERHUB_TEST_REDIS_URL: redis://127.0.0.1:6379/0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Tests with real Redis
+        run: pytest -q -m "not integration"
+
+  docker:
+    name: Docker image + Compose
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_DATA_DIR: /tmp/data/source
+      POSTGRES_PASSWORD: ci-postgres-password
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t orderhub:ci .
+      - name: Validate Compose file
+        run: docker compose config

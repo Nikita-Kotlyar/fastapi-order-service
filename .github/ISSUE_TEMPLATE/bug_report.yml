@@ -1,0 +1,30 @@
+name: Bug report
+description: Сообщить о воспроизводимой ошибке
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Что произошло
+      description: Ожидаемое и фактическое поведение
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Шаги воспроизведения
+      placeholder: |
+        1. docker-compose up -d --build
+        2. POST /api/v1/reconciliation/runs
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Версия / commit
+  - type: textarea
+    id: logs
+    attributes:
+      label: Логи и request_id
+      description: Не прикладывай секреты и персональные данные

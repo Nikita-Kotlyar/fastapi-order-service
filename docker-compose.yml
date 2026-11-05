@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: orderhub
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: orderhub
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orderhub -d orderhub"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    restart: unless-stopped
+    init: true
+    environment:
+      ORDERHUB_DATABASE_URL: postgresql+psycopg://orderhub:${POSTGRES_PASSWORD}@db:5432/orderhub
+      ORDERHUB_REDIS_URL: redis://redis:6379/0
+      ORDERHUB_JWT_SECRET: ${ORDERHUB_JWT_SECRET:-change-me-in-production-32-bytes-minimum}
+      ORDERHUB_ADMIN_USERNAME: ${ORDERHUB_ADMIN_USERNAME:-admin}
+      ORDERHUB_ADMIN_PASSWORD: ${ORDERHUB_ADMIN_PASSWORD:-change-me-admin}
+      ORDERHUB_ANALYST_PASSWORD: ${ORDERHUB_ANALYST_PASSWORD:-change-me-analyst}
+      ORDERHUB_VIEWER_PASSWORD: ${ORDERHUB_VIEWER_PASSWORD:-change-me-viewer}
+      ORDERHUB_SEED_DEFAULT_USERS: "true"
+      ORDERHUB_SOURCE_DIR: /data/source
+      ORDERHUB_AUTO_CREATE_TABLES: "false"
+    volumes:
+      - "${SOURCE_DATA_DIR:-./data/reference}:/data/source:ro"
+    ports:
+      - "8080:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    stop_grace_period: 10s
+    command: >
+      sh -c "alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+volumes:
+  pgdata:

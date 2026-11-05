@@ -1,0 +1,3 @@
+weighing_id;sku;declared_qty;declared_unit;actual_weight_kg;unit_weight_kg;delta_pct
+WEIGH-001;CBL-VVG-LS-3x1,5-S01;1000;м;80050.0;80.05;0.0
+WEIGH-002;CBL-KVVG-3x1,5-S01;500;м;35000.0;70.00;0.0

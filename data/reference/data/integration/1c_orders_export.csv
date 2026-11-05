@@ -1,0 +1,12 @@
+order_id;order_date;delivery_date;customer_id;customer_name;status;total_rub;currency;comment
+ORD-1001;2026-01-10;2026-01-20;CUST-001;ООО «Альфа»;confirmed;100000.0;RUB;
+ORD-1002;01.02.2026;15.02.2026;CUST-002;АО «Бета»;in_production;80000,0;RUB;
+ORD-1003;05/03/26;10/03/26;CUST-003;ООО «Гамма»;shipped;120000.0;RUB;
+ORD-1004;46113;2026-04-10;CUST-001;ООО «Альфа»;closed;60000.0;RUB;
+ORD-1005;2026-05-01;2026-05-15;;АО «Бета»;confirmed;90000.0;RUB;
+ORD-1006;2026-06-01;2026-06-20;CUST-999;ООО «Гамма»;in_production;75000.0;RUB;
+ORD-1007;2026-07-01;2026-07-15;CUST-001;ООО «Альфа»;confirmed;115500.0;RUB;
+ORD-1008;2026-08-01;2026-08-10;CUST-002;АО «Бета»;in_production;95000.0;RUB;
+ORD-1009;2026-09-01;2026-09-10;CUST-003;ООО «Гамма»;closed;70000.0;RUB;
+ORD-1010;2026-10-01;2026-10-15;CUST-001;ООО «Альфа»;confirmed;85000.0;RUB;
+ORD-1003;05.03.2026;10.03.2026;CUST-003;ООО «Гамма»;confirmed;116400,0;RUB;дубль выгрузки

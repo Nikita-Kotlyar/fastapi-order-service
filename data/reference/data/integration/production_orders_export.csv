@@ -1,0 +1,8 @@
+order_ref;sku;qty;unit;workshop;status;planned_end
+ORD-1001;CBL-VVG-LS-3x1,5-S01;1000;м;Цех 1;done;2026-01-18
+ORD-1002;CBL-VVG-LS-3x1,5-S01;80;км;Цех 2;in_progress;2026-02-12
+ORD-1003;CBL-VBSHV-LS-3x2,5-S01;800;м;Цех 3;done;2026-03-08
+ORD-1004;CBL-VVG-LS-3x1,5-S01;600;м;Цех 1;done;2026-04-08
+ORD-1005;CBL-PPG-HF-3x1,5-S01;750;м;Цех 2;in_progress;2026-05-12
+PRD-2001;CBL-KPS-FRLS-3x1,5-S01;1000;м;Цех 3;plan;2026-11-30
+PRD-2002;CBL-VVG-LS-3x1,5-S01;500;м;Цех 1;plan;2026-12-05

@@ -1,0 +1,4 @@
+customer_id;name;inn;kpp;city;contact;email;phone;manager;segment;credit_limit_rub;payment_days;duplicate_group
+CUST-001;ООО «Альфа»;5000000001;500000001;Орёл;Иванов И.И.;alpha@example.ru;+7 4862 000-01-01;Петров П.П.;опт;1000000;30;
+CUST-002;АО «Бета»;5000000002;500000002;Курск;Сидоров С.С.;beta@example.ru;+7 4862 000-01-02;Петров П.П.;опт;2000000;45;
+CUST-003;ООО «Гамма»;5000000003;500000003;Белгород;Кузнецов К.К.;gamma@example.ru;+7 4862 000-01-03;Смирнов С.С.;розница;500000;14;

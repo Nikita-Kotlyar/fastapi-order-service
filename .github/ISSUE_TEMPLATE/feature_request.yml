@@ -1,0 +1,32 @@
+name: Feature request
+description: Предложить улучшение
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Проблема
+      description: Какую задачу пользователя решаем
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Предлагаемое решение
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Альтернативы
+  - type: dropdown
+    id: area
+    attributes:
+      label: Область
+      options:
+        - API
+        - Ingestion / matching
+        - DQ
+        - Auth / RBAC
+        - Infra / CI
+        - Docs
