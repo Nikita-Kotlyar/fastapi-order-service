@@ -16,7 +16,7 @@ jobs:
       ORDERHUB_DATABASE_URL: sqlite:///./ci.db
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
           cache: pip
@@ -54,7 +54,7 @@ jobs:
       ORDERHUB_DATABASE_URL: postgresql+psycopg://orderhub:orderhub@127.0.0.1:5432/orderhub
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
           cache: pip
@@ -84,7 +84,7 @@ jobs:
       ORDERHUB_TEST_REDIS_URL: redis://127.0.0.1:6379/0
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
           cache: pip
