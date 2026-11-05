@@ -24,16 +24,18 @@ echo "==> Reconciling order sources"
 docker-compose exec -T api orderhub reconcile --run-date "${RUN_DATE}" >/dev/null
 
 echo "==> Waiting for API"
+API_CID="$(docker-compose ps -q api)"
 for _ in {1..30}; do
-  if curl -fsS http://127.0.0.1:8080/health >/dev/null 2>&1; then
+  STATUS="$(docker inspect -f '{{.State.Health.Status}}' "${API_CID}" 2>/dev/null || true)"
+  if [ "${STATUS}" = "healthy" ]; then
     break
   fi
   sleep 1
 done
 
 echo "==> Smoke test"
-curl -fsS http://127.0.0.1:8080/health
-echo
-curl -fsS http://127.0.0.1:8080/api/v1/orders/stats
-echo
-echo "Deploy complete. Swagger: http://127.0.0.1:8080/docs"
+docker-compose exec -T api python -c \
+  "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:8000/health').read().decode())"
+docker-compose exec -T api python -c \
+  "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:8000/api/v1/orders/stats').read().decode())"
+echo "Deploy complete. Swagger UI: /docs"

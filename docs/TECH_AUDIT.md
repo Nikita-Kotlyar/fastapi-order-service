@@ -45,7 +45,7 @@ orderhub-redis   Up   :6379 -> 6379   (healthy)
 - `POST /api/v1/orders` → 201, `DELETE` → 204, повторный `GET` → 404.
 - Redis: ключ `orderhub:orders:*` после GET, удаление после POST/DELETE.
 - `/ready` возвращает `database: ok`, `cache: redis`, `cache_ok: yes`.
-- Swagger UI: `http://127.0.0.1:8080/docs`.
+- Swagger UI доступен по пути `/docs`.
 
 ## Ограничения
 

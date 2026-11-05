@@ -148,7 +148,7 @@ cp .env.example .env
 .venv/Scripts/python.exe -m app.cli serve --port 8080
 ```
 
-Swagger: <http://127.0.0.1:8080/docs>.
+Swagger UI доступен по пути `/docs` после запуска сервиса.
 
 Быстрый старт использует SQLite; Docker Compose переключает сервис на PostgreSQL 16.
 По умолчанию используется `data/reference` — эталонный набор из 16 заказов
@@ -220,11 +220,13 @@ Bootstrap-пользователи создаются из переменных 
 Пример:
 
 ```bash
-TOKEN=$(curl -s -X POST http://127.0.0.1:8080/api/v1/auth/token \
+API_BASE_URL="${API_BASE_URL:?set API_BASE_URL}"
+
+TOKEN=$(curl -s -X POST "$API_BASE_URL/api/v1/auth/token" \
   -d "username=admin&password=$ORDERHUB_ADMIN_PASSWORD" | jq -r .access_token)
 
 curl -H "Authorization: Bearer $TOKEN" \
-  "http://127.0.0.1:8080/api/v1/orders?status=in_production&has_issues=true&limit=5"
+  "$API_BASE_URL/api/v1/orders?status=in_production&has_issues=true&limit=5"
 ```
 
 Ошибки единообразны, каждый ответ содержит `X-Request-ID`:

@@ -50,10 +50,12 @@ docker-compose down -v       # удалить и БД
 ## Проверки здоровья
 
 ```bash
-curl -s http://127.0.0.1:8080/health
-curl -s http://127.0.0.1:8080/ready
-curl -s http://127.0.0.1:8080/api/v1/orders/stats
-curl -s http://127.0.0.1:8080/metrics
+API_BASE_URL="${API_BASE_URL:?set API_BASE_URL}"
+
+curl -s "$API_BASE_URL/health"
+curl -s "$API_BASE_URL/ready"
+curl -s "$API_BASE_URL/api/v1/orders/stats"
+curl -s "$API_BASE_URL/metrics"
 ```
 
 `/ready` проверяет PostgreSQL и кэш; каждый ответ содержит `X-Request-ID`.
